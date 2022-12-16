@@ -1,14 +1,13 @@
-import { Text } from '../components/Text';
+import { Header } from '../components/Header';
 import { Container } from './styles';
+
 
 
 export function Main() {
   return (
     <Container>
 
-      <Text>
-      Main Renderizou
-      </Text>
+      <Header />
     </Container>
   );
 }
