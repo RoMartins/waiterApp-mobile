@@ -1,14 +1,31 @@
+import { Categories } from '../components/Categories';
 import { Header } from '../components/Header';
-import { Container } from './styles';
+import { Menu } from '../components/Menu';
+import { Container, CategoriesContainer,Footer,MenuContainer } from './styles';
 
 
 
 export function Main() {
   return (
-    <Container>
+    <>
+      <Container>
+        <Header />
+        <CategoriesContainer>
+          <Categories />
+        </CategoriesContainer>
 
-      <Header />
-    </Container>
+        <MenuContainer>
+          <Menu />
+        </MenuContainer>
+
+
+      </Container>
+
+      <Footer>
+
+      </Footer>
+    </>
+
   );
 }
 

@@ -23,7 +23,7 @@
             "error",
             2
         ],
-
+				"no-mixed-spaces-and-tabs":"off" ,
         "react/react-in-jsx-scope": "off",
         "linebreak-style": [
             "error",
