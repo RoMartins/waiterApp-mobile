@@ -5,7 +5,6 @@ import { Menu } from '../components/Menu';
 import { Container, CategoriesContainer,Footer,MenuContainer } from './styles';
 
 
-
 export function Main() {
   return (
     <>
