@@ -1,7 +1,7 @@
 import { FlatList, TouchableOpacity } from 'react-native';
 import {products} from '../../mocks/products';
 import { Text } from '../Text';
-import {Image, Product, ProductDetails, Separator} from './styles';
+import {Image, Product, ProductDetails, Separator, AddToCartButton} from './styles';
 import { formatCurrency } from '../../utils/formatCurrent';
 import { PlusCircle } from '../Icons/PlusCircle';
 
@@ -26,9 +26,9 @@ export function Menu() {
             <Text size={14} weight='600' style={{lineHeight: 36}} >{formatCurrency(product.price)}</Text>
           </ProductDetails>
 
-          <TouchableOpacity>
+          <AddToCartButton>
             <PlusCircle />
-          </TouchableOpacity>
+          </AddToCartButton>
         </Product>
       )}
     />
