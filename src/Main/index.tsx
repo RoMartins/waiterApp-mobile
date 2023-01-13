@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { Button } from '../components/Button';
 import { Categories } from '../components/Categories';
 import { Header } from '../components/Header';
@@ -7,10 +8,25 @@ import { Container, CategoriesContainer,Footer,MenuContainer } from './styles';
 
 
 export function Main() {
+
+  const [isTableModalVisible, setIsTableModalVisible ] = useState(false);
+  const [isSaveNumberTable, setIsSaveNumberTable ] = useState('12');
+
+  function handleSaveTable(table: string) {
+    setIsSaveNumberTable(table);
+  }
+
+  function handleCancelOrder() {
+    setIsSaveNumberTable('');
+  }
   return (
     <>
       <Container>
-        <Header />
+        <Header
+          NumberTable= {isSaveNumberTable}
+          onCancelOrder= {handleCancelOrder}
+        />
+
         <CategoriesContainer>
           <Categories />
         </CategoriesContainer>
@@ -23,12 +39,19 @@ export function Main() {
       </Container>
 
       <Footer>
-        <Button onPress={() => alert('novo pedido')} disabled>
+        {!isSaveNumberTable && (
+          <Button onPress={() => setIsTableModalVisible(true)}>
 					Novo pedido
-        </Button>
+          </Button>
+        )}
       </Footer>
 
-      <TableModal />
+      <TableModal
+        visible={isTableModalVisible}
+        onClose={() => setIsTableModalVisible(false)}
+        onSave={handleSaveTable}
+      />
+
     </>
 
   );
