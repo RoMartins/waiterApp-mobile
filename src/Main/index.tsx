@@ -10,7 +10,7 @@ import { Container, CategoriesContainer,Footer,MenuContainer } from './styles';
 export function Main() {
 
   const [isTableModalVisible, setIsTableModalVisible ] = useState(false);
-  const [isSaveNumberTable, setIsSaveNumberTable ] = useState('12');
+  const [isSaveNumberTable, setIsSaveNumberTable ] = useState('');
 
   function handleSaveTable(table: string) {
     setIsSaveNumberTable(table);
