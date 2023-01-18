@@ -35,7 +35,7 @@ export function Main() {
         cartItem => cartItem.product._id === product._id
       );
 
-      if(itemIndex > 0) {
+      if(itemIndex < 0) {
         return prevState.concat({
           quantity: 1,
           product
@@ -54,6 +54,7 @@ export function Main() {
 
     });
   }
+
   return (
     <>
       <Container>
@@ -81,7 +82,7 @@ export function Main() {
         )}
 
         {selectedNumberTable && (
-          <Cart cartItems={cartItems}/>
+          <Cart onAdd={handleAddToCart} cartItems={cartItems}/>
         )}
       </Footer>
 
