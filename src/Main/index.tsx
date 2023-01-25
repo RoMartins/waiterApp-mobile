@@ -5,7 +5,6 @@ import { Categories } from '../components/Categories';
 import { Header } from '../components/Header';
 import { Menu } from '../components/Menu';
 import { TableModal } from '../components/TableModal';
-import { products } from '../mocks/products';
 import { CartItem } from '../types/CartItem';
 import { Product } from '../types/Product';
 import { Container, CategoriesContainer,Footer,MenuContainer } from './styles';
@@ -55,6 +54,32 @@ export function Main() {
     });
   }
 
+  function handleDecrementToCart(product: Product) {
+    setCartItems((prevState) => {
+      const itemIndex = prevState.findIndex(cartItem => cartItem.product._id === product._id);
+      const item = prevState[itemIndex];
+      const newCartItems = [...prevState];
+
+      if(item.quantity === 1) {
+        newCartItems.splice(itemIndex, 1);
+
+        return newCartItems;
+      }
+
+      newCartItems[itemIndex] = {
+        ...item,
+        quantity: item.quantity - 1
+      };
+
+      return newCartItems;
+
+    });
+
+
+  }
+
+
+
   return (
     <>
       <Container>
@@ -82,7 +107,7 @@ export function Main() {
         )}
 
         {selectedNumberTable && (
-          <Cart onAdd={handleAddToCart} cartItems={cartItems}/>
+          <Cart onAdd={handleAddToCart} cartItems={cartItems} onDecrememt={handleDecrementToCart}/>
         )}
       </Footer>
 
