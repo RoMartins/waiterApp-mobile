@@ -20,7 +20,7 @@ export function Main() {
     setSelectedNumberTable(table);
   }
 
-  function handleCancelOrder() {
+  function handleResetOrder() {
     setSelectedNumberTable('');
     setCartItems([]);
   }
@@ -86,7 +86,7 @@ export function Main() {
       <Container>
         <Header
           NumberTable= {selectedNumberTable}
-          onCancelOrder= {handleCancelOrder}
+          onCancelOrder= {handleResetOrder}
         />
 
         <CategoriesContainer>
@@ -108,7 +108,12 @@ export function Main() {
         )}
 
         {selectedNumberTable && (
-          <Cart onAdd={handleAddToCart} cartItems={cartItems} onDecrememt={handleDecrementToCart}/>
+          <Cart
+            onAdd={handleAddToCart}
+            cartItems={cartItems}
+            onDecrememt={handleDecrementToCart}
+            onConfirmOrder = {handleResetOrder}
+          />
         )}
       </Footer>
 
