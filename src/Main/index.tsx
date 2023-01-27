@@ -9,6 +9,9 @@ import { TableModal } from '../components/TableModal';
 import { CartItem } from '../types/CartItem';
 import { Product } from '../types/Product';
 import { Container, CategoriesContainer,Footer,MenuContainer, CenteredContainer } from './styles';
+import {products  as mockProducts} from '../mocks/products';
+import { Empty } from '../components/Icons/Empty';
+import { Text } from '../components/Text';
 
 
 export function Main() {
@@ -17,6 +20,7 @@ export function Main() {
   const [selectedNumberTable, setSelectedNumberTable ] = useState('');
   const [cartItems, setCartItems ] = useState<CartItem[]>([]);
   const [isLoading] = useState(false);
+  const [products] = useState<Product[]>(mockProducts);
 
 
   function handleSaveTable(table: string) {
@@ -96,9 +100,18 @@ export function Main() {
 				 <Categories />
 			 </CategoriesContainer>
 
-			 <MenuContainer>
-				 <Menu OnAddToCart={handleAddToCart}/>
-			 </MenuContainer>
+			 {products.length > 0 ? (
+              <MenuContainer>
+                <Menu OnAddToCart={handleAddToCart} products={products}/>
+              </MenuContainer>
+			 ) : (
+              <CenteredContainer>
+                <Empty />
+                <Text color='#666'>
+									Nenhum produto foi encontrado!
+                </Text>
+              </CenteredContainer>
+			 )}
           </>
 
 			 ) : (
