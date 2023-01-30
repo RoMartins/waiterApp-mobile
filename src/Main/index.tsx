@@ -1,5 +1,5 @@
 import { ActivityIndicator } from 'react-native';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Button } from '../components/Button';
 import { Cart } from '../components/Cart';
 import { Categories } from '../components/Categories';
@@ -12,6 +12,8 @@ import { Container, CategoriesContainer,Footer,MenuContainer, CenteredContainer 
 import {products  as mockProducts} from '../mocks/products';
 import { Empty } from '../components/Icons/Empty';
 import { Text } from '../components/Text';
+import { Category } from '../types/Category';
+import axios from 'axios';
 
 
 export function Main() {
@@ -20,9 +22,20 @@ export function Main() {
   const [selectedNumberTable, setSelectedNumberTable ] = useState('');
   const [cartItems, setCartItems ] = useState<CartItem[]>([]);
   const [isLoading] = useState(false);
-  const [products] = useState<Product[]>(mockProducts);
+  const [products, setProducts] = useState<Product[]>([]);
+  const [categories, setCategories] = useState<Category[]>([]);
 
+  useEffect(() => {
+	 axios.get('http://192.168.15.38:3001/categories').then((response) => {
+      setCategories(response.data);
+    });
+  }, []);
 
+  useEffect(() => {
+    axios.get('http://192.168.15.38:3001/products').then((response) => {
+			 setProducts(response.data);
+		 });
+	 }, []);
   function handleSaveTable(table: string) {
     setSelectedNumberTable(table);
   }
@@ -97,7 +110,7 @@ export function Main() {
         {!isLoading ? (
           <>
 				 <CategoriesContainer>
-				 <Categories />
+				 <Categories categories={categories} />
 			 </CategoriesContainer>
 
 			 {products.length > 0 ? (
