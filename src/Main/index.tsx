@@ -9,11 +9,10 @@ import { TableModal } from '../components/TableModal';
 import { CartItem } from '../types/CartItem';
 import { Product } from '../types/Product';
 import { Container, CategoriesContainer,Footer,MenuContainer, CenteredContainer } from './styles';
-import {products  as mockProducts} from '../mocks/products';
 import { Empty } from '../components/Icons/Empty';
 import { Text } from '../components/Text';
 import { Category } from '../types/Category';
-import axios from 'axios';
+import { api } from '../utils/api';
 
 
 export function Main() {
@@ -24,11 +23,12 @@ export function Main() {
   const [isLoading, setIsLoading] = useState(true);
   const [products, setProducts] = useState<Product[]>([]);
   const [categories, setCategories] = useState<Category[]>([]);
+  const [isLoadingProducts, setIsLoadingProducts] = useState(false);
 
   useEffect(() => {
     Promise.all([
-      axios.get('http://192.168.15.38:3001/categories'),
-      axios.get('http://192.168.15.38:3001/products'),
+      api.get('/categories'),
+      api.get('/products'),
     ]).then(([responseCatgories, responseProducts]) => {
       setCategories(responseCatgories.data);
       setProducts(responseProducts.data);
@@ -36,6 +36,17 @@ export function Main() {
     });
   }, []);
 
+
+  async function handleSelectCategory(categoryId:string) {
+    const route = !categoryId ? '/products' : `/categories/${categoryId}/products`;
+    setIsLoadingProducts(true);
+
+    await new Promise(resolve => setTimeout(resolve,400));
+    const {data} = await api.get(route);
+    setProducts(data);
+
+    setIsLoadingProducts(false);
+  }
 
   function handleSaveTable(table: string) {
     setSelectedNumberTable(table);
@@ -111,21 +122,30 @@ export function Main() {
         {!isLoading ? (
           <>
 				 <CategoriesContainer>
-				 <Categories categories={categories} />
+				 <Categories categories={categories} onSelectCategory={handleSelectCategory} />
 			 </CategoriesContainer>
 
-			 {products.length > 0 ? (
-              <MenuContainer>
-                <Menu OnAddToCart={handleAddToCart} products={products}/>
-              </MenuContainer>
-			 ) : (
+            {isLoadingProducts ? (
               <CenteredContainer>
-                <Empty />
-                <Text color='#666'>
-									Nenhum produto foi encontrado!
-                </Text>
+                <ActivityIndicator color="#D73035" size="large"/>
               </CenteredContainer>
+            ): (
+              <>
+                {products.length > 0 ? (
+                  <MenuContainer>
+                    <Menu OnAddToCart={handleAddToCart} products={products}/>
+                  </MenuContainer>
+			 ) : (
+                  <CenteredContainer>
+                    <Empty />
+                    <Text color='#666'>
+									Nenhum produto foi encontrado!
+                    </Text>
+                  </CenteredContainer>
 			 )}
+              </>
+            )}
+
           </>
 
 			 ) : (
